@@ -1,4 +1,6 @@
 import pygame
+import math
+from pygame import Vector2
 
 resolution = (1400, 700)
 
@@ -23,6 +25,23 @@ class Animation :
                 
         elif self.pressed.get(pygame.K_DOWN) : # and self.robot.rect.y + self.robot.rect.height < screen.get_height() :
             self.robot.move_backward()
+            
+        if self.pressed.get(pygame.K_RIGHT) : # and self.robot.rect.x + self.robot.rect.width < screen.get_width() :
+            self.robot.turn_right()
+
+        elif self.pressed.get(pygame.K_LEFT) : # and self.robot.rect.x > 0 :
+            self.robot.turn_left()
+
+class Displayable:
+    vector: Vector2
+
+    def __init__(self, screen):
+        self.vector = Vector2(0,0)
+        self.screen = screen
+
+    def display(self):
+        return
+
 
 class Robot :
     def __init__(self) :
@@ -30,28 +49,33 @@ class Robot :
         self.rect = self.image.get_rect()
         self.rect.x = 500
         self.rect.y = 500
-        self.velocity = 1
-        
-        
+        # self.center = self.rect.x, self.rect.y
+        self.velocity = 0.1
+        self.angle = 0
         
         self.vect = pygame.Vector2(0, -1)
         
-    def move_forward(self) :
-        self.rect.x += self.vect.x
-        self.rect.y += self.vect.y
+    def rotate(self, change_angle):
+        self.angle += change_angle
+        self.image = pygame.transform.rotate(self.image, self.angle)
+        # self.rect = self.img.get_rect(center = self.rect.center)
     
-    def move_backward(self) :
-        self.rect.x -= self.vect.x
-        self.rect.y -= self.vect.y
+    def move(self, distance):
+        self.rect.x += distance * math.cos(math.radians(self.angle + 90))
+        self.rect.y -= distance * math.sin(math.radians(self.angle + 90))
+        #self.rect.center = round(self.rect.x), round(self.rect.y)
     
-    # def turn_right(self) :
-    #     self.forward_x += 0.1
-    #     self.forward_y -= 0.1
-    #     self.backward_x -= 0.1
-    #     self.backward_y += 0.1
+    def turn_left(self):
+        self.rotate(0.1)
+        
+    def turn_right(self):
+        self.rotate(-0.1)
     
-    # def turn_left(self) :
-    #     return
+    def move_forward(self):
+        self.move(self.velocity)
+        
+    def move_backward(self):
+        self.move(-self.velocity)
 
 
 animation = Animation()
