@@ -1,6 +1,6 @@
 import pygame
 import math
-from pygame import Vector2
+import time
 
 resolution = (1400, 700)
 
@@ -8,74 +8,113 @@ screen = pygame.display.set_mode(resolution, pygame.RESIZABLE)
 pygame.display.set_caption("Dexter")
 pygame.init()
 
-class Animation :
-    def __init__(self) :
+
+class Animation:
+    def __init__(self):
         self.is_playing = False
         self.pressed = {}
-        self.robot = Robot()
-        
-    def start(self) :
+
+        robot_image = pygame.image.load("black_dot.jpg").convert_alpha()
+        self.robot = Robot(screen, robot_image)
+
+    def start(self):
         self.is_playing = True
-        
-    def update(self) :
-        screen.blit(self.robot.image, self.robot.rect)
-        
-        if self.pressed.get(pygame.K_UP) : # and self.robot.rect.y > 0 :
+
+    def update(self):
+        self.robot.tick()
+
+        if self.pressed.get(pygame.K_UP):  # and self.robot.rect.y > 0 :
             self.robot.move_forward()
-                
-        elif self.pressed.get(pygame.K_DOWN) : # and self.robot.rect.y + self.robot.rect.height < screen.get_height() :
+
+        # and self.robot.rect.y + self.robot.rect.height < screen.get_height() :
+        elif self.pressed.get(pygame.K_DOWN):
             self.robot.move_backward()
-            
-        if self.pressed.get(pygame.K_RIGHT) : # and self.robot.rect.x + self.robot.rect.width < screen.get_width() :
+
+        # and self.robot.rect.x + self.robot.rect.width < screen.get_width() :
+        if self.pressed.get(pygame.K_RIGHT):
             self.robot.turn_right()
 
-        elif self.pressed.get(pygame.K_LEFT) : # and self.robot.rect.x > 0 :
+        elif self.pressed.get(pygame.K_LEFT):  # and self.robot.rect.x > 0 :
             self.robot.turn_left()
 
-class Displayable:
-    vector: Vector2
 
-    def __init__(self, screen):
-        self.vector = Vector2(0,0)
+class Displayable:
+    """
+    A Displayable object is any object that can be drawn on the screen.
+    """
+
+    def __init__(self, screen, image):
+        self.position = (0, 0)
         self.screen = screen
+        self.image = image
+        self.current_image = image
+        self.current_image_rectangle = image.get_rect()
+
+    def set_position(self, x, y):
+        self.position = (x, y)
 
     def display(self):
-        return
+        screen.blit(self.current_image, self.position)
+    
+    def set_rotation(self, angle):
+        self.current_image = pygame.transform.rotate(self.image, angle)
 
 
-class Robot :
-    def __init__(self) :
-        self.image = pygame.image.load("black_dot.jpg").convert_alpha()
-        self.rect = self.image.get_rect()
-        self.rect.x = 500
-        self.rect.y = 500
-        # self.center = self.rect.x, self.rect.y
-        self.velocity = 0.1
+class Movable(Displayable):
+    """
+    A Movable object is a Displayable object, with the added capability of doing movements.
+    """
+
+    def __init__(self, screen, image):
+        super().__init__(screen, image)
+        self.speed = 0.00001
         self.angle = 0
-        
-        self.vect = pygame.Vector2(0, -1)
-        
-    def rotate(self, change_angle):
-        self.angle += change_angle
-        self.image = pygame.transform.rotate(self.image, self.angle)
-        # self.rect = self.img.get_rect(center = self.rect.center)
+
+    def rotate(self, deg):
+        """
+        Fait une rotation de deg degres.
+
+        Par exemple, si l'angle actuel est 90, et je fais une rotation de 20, l'angle devient 110.
+        """
+        self.angle = + deg
+        super().set_rotation(self.angle)
+
+    def changeSpeed(self, speedDelta):
+        """
+        Accelere / deccelere par un facteur de speedDelta.
+
+        Par exemple, si la vitesse est 4, et speedDelta est -1, la vitesse devient 3.
+        """
+        self.speed += speedDelta
     
-    def move(self, distance):
-        self.rect.x += distance * math.cos(math.radians(self.angle + 90))
-        self.rect.y -= distance * math.sin(math.radians(self.angle + 90))
-        #self.rect.center = round(self.rect.x), round(self.rect.y)
-    
+    def tick(self):
+        """
+        Une 'tick' du horloge interne du programme. Fait l'objet avancer selon sa vitesse, et affiche le changement.
+        """
+        oldX = self.position.x
+        oldY = self.position.y
+        newX = oldX + math.cos(math.radians(self.angle)) * self.speed
+        newY = oldY + math.sin(math.radians(self.angle)) * self.speed
+        self.set_position(newX, newY)
+
+        self.display()
+
+
+class Robot(Movable):
+    def __init__(self, screen, image):
+        super().__init__(screen, image)
+
     def turn_left(self):
-        self.rotate(0.1)
-        
+        self.rotate(1)
+
     def turn_right(self):
-        self.rotate(-0.1)
-    
+        self.rotate(-1)
+
     def move_forward(self):
-        self.move(self.velocity)
-        
+        self.changeSpeed(0.1)
+
     def move_backward(self):
-        self.move(-self.velocity)
+        self.changeSpeed(-0.1)
 
 
 animation = Animation()
@@ -84,27 +123,29 @@ pygame.display.flip()
 
 
 launched = True
-while launched :
-    
+while launched:
+
     screen.fill((89, 152, 255))
-    
-    if animation.is_playing :
+
+    if animation.is_playing:
         animation.update()
-    
-    for event in pygame.event.get() :
-        
-        if event.type == pygame.QUIT :
+
+    for event in pygame.event.get():
+
+        if event.type == pygame.QUIT:
             launched = False
-            
+
         elif event.type == pygame.KEYDOWN:
             animation.pressed[event.key] = True
-            
+
             if event.key == pygame.K_SPACE:
                 animation.start()
-            
+
         elif event.type == pygame.KEYUP:
-                animation.pressed[event.key] = False
-            
+            animation.pressed[event.key] = False
+
     pygame.display.flip()
-    
+
+    time.sleep(0.01)
+
 pygame.quit()
