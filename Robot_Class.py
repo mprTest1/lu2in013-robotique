@@ -7,6 +7,7 @@ class Vector2 :
         self.y = 1
         self.x = self.x * math.cos(angle) - self.y * math.sin(angle)
         self.y = self.x * math.sin(angle) + self.y * math.cos(angle)
+        print(self.x, self.y)
         
     def angle_to_radius(self, angle) :
         return angle * math.pi / 180
