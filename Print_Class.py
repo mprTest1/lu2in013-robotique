@@ -1,34 +1,25 @@
-from traceback import print_tb
 from Robot_Class import *
 
 class Affichage :
-    def __init__(self, robot, arena) :
-        self.robot:Robot = robot
-        self.arena:Arena = arena
-        
+    """
+    Initialize
+    """
+    def __init__(self, robotImport, arenaImport) :
+        self.robotSaved:Robot = robotImport
+        self.arenaSaved:Arena = arenaImport
+
+    """
+    Print arena and robot
+    """
     def afficher(self) :
-        res = " " + "-" * self.arena.largeur + "\n"
-        for i in range(self.arena.longueur) :
-            res += "|"
-            for j in range(self.arena.largeur) :
-                if i == self.robot.x and j == self.robot.y:
+        res = " " + "-" * self.arenaSaved.xMax + "\n"
+        for yi in range(self.arenaSaved.yMax-1,-1,-1) :
+            res += str(yi)
+            for xi in range(self.arenaSaved.xMax) :
+                if (xi <= self.robotSaved.x and xi+1 > self.robotSaved.x and yi <= self.robotSaved.y and yi+1 > self.robotSaved.y) :
                     res += "O"
                 else :
                     res += " "
             res += "|\n"
-        res += " " + "-" * self.arena.largeur
+        res += " " + "-" * self.arenaSaved.xMax
         return res
-            
-robot = Robot()
-arena = Arena(10, 50)
-
-affichage = Affichage(robot, arena)
-
-print(affichage.afficher())
-
-robot.move_backward()
-robot.move_backward()
-robot.move_backward()
-robot.move_backward()
-
-print(affichage.afficher())

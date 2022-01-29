@@ -1,56 +1,71 @@
-import math
+from Vector_Class import *
 
-class Vector2 :
-    def __init__(self, angle) :
-        self.angle = angle
-        self.x = 0
-        self.y = 1
-        self.x = self.x * math.cos(angle) - self.y * math.sin(angle)
-        self.y = self.x * math.sin(angle) + self.y * math.cos(angle)
-        print(self.x, self.y)
-        
-    def angle_to_radius(self, angle) :
-        return angle * math.pi / 180
-
-    def angle_to_vector(self, angle) :
-        # rad = self.angle_to_radius(angle)
-        self.x = self.x * math.cos(angle) - self.y * math.sin(angle)
-        self.y = - (self.x * math.sin(angle) + self.y * math.cos(angle))
-        
-    def turn_right(self) :
-        self.angle += 1
-        self.angle_to_vector(self.angle)
-        
-    def turn_left(self) :
-        self.angle -= 1
-        self.angle_to_vector(self.angle)
-        
-    
 class Robot :
-    def __init__(self) :
-        self.x = 5
-        self.y = 5
-        self.cote = 5
-        self.vitesse = 1
-        self.direction = Vector2(90)
+    """
+    Initialize the robot
+    x,y: robot's position
+    speed: speed (/tick)
+    direction: direction(degree)
+    """
+    def __init__(self,xInit,yInit,lInit) :
+        self.x = xInit
+        self.y = yInit
+        self.l = lInit
+        self.speed = 0
+        self.direction = Vector2(0)
+
+    """
+    Adjust the speed of the robot
+    - deltaSpeed can be less than 0
+    """
+    def speed_up(self,deltaSpeed) :
+        self.speed+=deltaSpeed
+
+    """
+    Rotate couterclockwise with deltaAngle degree
+    """
+    def rotate_left(self,deltaAngle) :
+        self.direction.rotate(deltaAngle)
         
+    """
+    Rotate clockwise with deltaAngle degree
+    """
+    def rotate_right(self,deltaAngle) :
+        self.direction.rotate(-deltaAngle)
+        
+    """
+    Move the robot forward for 1 tick
+    """
     def move_forward(self) :
-        self.x += self.vitesse * int(self.direction.x)
-        self.y += self.vitesse * int(self.direction.y)
-        
+        self.x += self.direction.x * self.speed
+        self.y += self.direction.y * self.speed
+
+    """
+    Move the robot backward for 1 tick
+    """
     def move_backward(self) :
-        self.x -= self.vitesse * int(self.direction.x)
-        self.y -= self.vitesse * int(self.direction.x)
-        
-    def turn_right(self) :
-        self.direction.turn_right()
-        
-    def turn_left(self) :
-        self.direction.turn_left()
-        
-    
+        self.x -= self.direction.x * self.speed
+        self.y -= self.direction.y * self.speed
+
+    """
+    Get vertex coordinates
+    """
+    def getVertexCoords(self) :
+        return [(self.x+0.707*self.l*math.cos(Vector2.rad(45+self.direction.angle)),self.y+0.707*self.l*math.sin(Vector2.rad(45+self.direction.angle))),
+        (self.x+0.707*self.l*math.cos(Vector2.rad(135+self.direction.angle)),self.y+0.707*self.l*math.sin(Vector2.rad(135+self.direction.angle))),
+        (self.x+0.707*self.l*math.cos(Vector2.rad(225+self.direction.angle)),self.y+0.707*self.l*math.sin(Vector2.rad(225+self.direction.angle))),
+        (self.x+0.707*self.l*math.cos(Vector2.rad(315+self.direction.angle)),self.y+0.707*self.l*math.sin(Vector2.rad(315+self.direction.angle)))]
+
+    """
+    !!! Incomplete method
+    Activate while interact with barriers or borders
+    Turn the normal(perpendicular) speed to 0
+    """
+    def collision(self):
+        print("collision")
+
 class Arena :
-    def __init__(self, longueur, largeur) :
-        self.longueur = longueur
-        self.largeur = largeur
-    
+    """ We suppose that the position of the left-down corner is (0,0) """
+    def __init__(self, xMax, yMax) :
+        self.xMax = xMax
+        self.yMax = yMax
