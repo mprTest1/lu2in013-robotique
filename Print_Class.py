@@ -12,6 +12,7 @@ class Affichage :
     Print arena and robot
     """
     def afficher(self) :
+        print(self.robotSaved)
         res = " " + "-" * self.arenaSaved.xMax + "\n"
         for yi in range(self.arenaSaved.yMax-1,-1,-1) :
             res += str(yi)
@@ -22,4 +23,4 @@ class Affichage :
                     res += " "
             res += "|\n"
         res += " " + "-" * self.arenaSaved.xMax
-        return res
+        print(res)

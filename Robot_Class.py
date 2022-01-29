@@ -3,16 +3,16 @@ from Vector_Class import *
 class Robot :
     """
     Initialize the robot
-    x,y: robot's position
+    x,y: robot's position (whole number)
     speed: speed (/tick)
-    direction: direction(degree)
+    direction: direction(degree) initialized at 90
     """
     def __init__(self,xInit,yInit,lInit) :
-        self.x = xInit
-        self.y = yInit
+        self.x = int(xInit)
+        self.y = int(yInit)
         self.l = lInit
         self.speed = 0
-        self.direction = Vector2(0)
+        self.direction = Vector2(90)
 
     """
     Adjust the speed of the robot
@@ -37,15 +37,15 @@ class Robot :
     Move the robot forward for 1 tick
     """
     def move_forward(self) :
-        self.x += self.direction.x * self.speed
-        self.y += self.direction.y * self.speed
+        self.x += int(self.direction.x * self.speed)
+        self.y += int(self.direction.y * self.speed)
 
     """
     Move the robot backward for 1 tick
     """
     def move_backward(self) :
-        self.x -= self.direction.x * self.speed
-        self.y -= self.direction.y * self.speed
+        self.x -= int(self.direction.x * self.speed, ".2f")
+        self.y -= int(self.direction.y * self.speed, ".2f")
 
     """
     Get vertex coordinates
@@ -63,6 +63,12 @@ class Robot :
     """
     def collision(self):
         print("collision")
+        
+    """
+    When printed, the console shows this
+    """
+    def __repr__(self) :
+        return "<Robot x = " + str(self.x) + " y = " + str(self.y) + " l = " + str(self.l) + " speed = " + str(self.speed) + " direction = " + str(self.direction) + ">"
 
 class Arena :
     """ We suppose that the position of the left-down corner is (0,0) """

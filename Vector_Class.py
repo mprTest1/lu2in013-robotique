@@ -13,16 +13,17 @@ class Vector2 :
     """
     Initialize the vector of direction (|v|=1)
     - Suppose that 0 degrees in the positive direction of the x-axis(right)
+    - Precision of two values after the decimal
     """
     def __init__(self, angle) :
         self.angle = angle
-        self.x = math.cos(Vector2.rad(angle))
-        self.y = math.sin(Vector2.rad(angle))
+        self.x = float(format(math.cos(Vector2.rad(angle)), ".2f")) # Pourquoi pas self.rad(angle) ?
+        self.y = float(format(math.sin(Vector2.rad(angle)), ".2f"))
         
     """
     Convert an angle from degree to radius
     """
-    def rad(angle) :
+    def rad(angle) : # Pourquoi pas rad(self, angle) ?
         return angle * math.pi / 180
     
     """
@@ -32,8 +33,14 @@ class Vector2 :
     """
     def rotate(self,deltaAngle) :
         self.angle += deltaAngle
-        self.x = math.cos(Vector2.rad(self.angle))
-        self.y = math.sin(Vector2.rad(self.angle))
+        self.x = float(format(math.cos(Vector2.rad(self.angle)), ".2f"))
+        self.y = float(format(math.sin(Vector2.rad(self.angle)), ".2f"))
+    
+    """
+    When printed, the console shows this
+    """
+    def __repr__(self) :
+        return "<Vector x = " + str(self.x) + " y = " + str(self.y) + " angle = " + str(self.angle) + ">"
 
 class Utils :
     """
