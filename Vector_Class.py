@@ -52,8 +52,12 @@ class Utils :
         return x1*x2+y1*y2
     
     """
-    Incomplete method
+    !!!Incomplete method
     """
     def verifyCollision() :
         return
     
+"""
+These classes don't need to be used
+in main.py tests
+"""

@@ -7,5 +7,5 @@ Import this class whenever you need to use :
 - Print_Class.py
 
 like this :
-from Print_Class import *
+from Import_Classes import *
 """

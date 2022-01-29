@@ -43,7 +43,7 @@ class Task :
         return
             
 """
-Try this code : 
+Try this code in main.py : 
 ---------------------------
 from Task_Class import *
 

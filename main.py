@@ -6,7 +6,7 @@ Testing Robot's movement
 """
 
 robot0 = Robot(5,5,4)
-arena0 = Arena(50, 10)
+arena0 = Arena(50, 15)
 
 screen0 = Affichage(robot0, arena0)
 

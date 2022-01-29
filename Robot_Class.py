@@ -75,3 +75,28 @@ class Arena :
     def __init__(self, xMax, yMax) :
         self.xMax = xMax
         self.yMax = yMax
+
+"""
+Try this code in main.py
+
+---------------------------
+from Import_Classes import *
+
+# Move three steps forward
+# with speed of 1.5
+
+robot0.speed_up(1.5)
+robot0.move_forward()
+robot0.move_forward()
+robot0.move_forward()
+
+# rotate 45 degree to the left
+# then move three steps backward
+
+robot0.rotate_left(45)
+robot0.move_backward()
+robot0.move_backward()
+robot0.move_backward()
+---------------------------
+
+"""
