@@ -1,4 +1,5 @@
 from Robot_Class import *
+from Arena_Class import *
 
 class Affichage :
     
