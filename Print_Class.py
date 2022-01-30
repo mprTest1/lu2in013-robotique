@@ -1,21 +1,24 @@
 from Robot_Class import *
 
 class Affichage :
-    """
-    Initialize
-    """
+    
     def __init__(self, robotImport, arenaImport) :
+        """
+        Initialize
+        `robotImport` : Robot type variable
+        `arenaImport` : Arena type variable
+        """
         self.robotSaved:Robot = robotImport
         self.arenaSaved:Arena = arenaImport
 
-    """
-    Print arena and robot
-    """
     def afficher(self) :
+        """
+        Print arena and robot
+        """
         print(self.robotSaved)
         res = "   " + "-" * self.arenaSaved.xMax + "\n"
         for yi in range(self.arenaSaved.yMax-1,-1,-1) :
-            res += str(yi) + self.spaces(yi)
+            res += str(yi) + self.add_spaces(self.arenaSaved.xMax, yi)
             for xi in range(self.arenaSaved.xMax) :
                 if (xi <= self.robotSaved.x and xi+1 > self.robotSaved.x and yi <= self.robotSaved.y and yi+1 > self.robotSaved.y) :
                     res += "O"
@@ -25,8 +28,15 @@ class Affichage :
         res += "   " + "-" * self.arenaSaved.xMax
         print(res)
         
-    def spaces(self, i) :
-        if self.arenaSaved.xMax >= 10 and i < 10 :
+    def add_spaces(self, max_num, i) :
+        """
+        Additionnal spaces to separate y coordinates from the arena
+        `max_num` : helps count the max digit
+        `i` : additionnal spaces is added when the i have less digits than `max_num`
+        
+        !!! This method works only for 2 digits and less
+        """
+        if max_num >= 10 and i < 10 :
             return " |"
         return "|"
 

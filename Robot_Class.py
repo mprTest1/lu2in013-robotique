@@ -1,77 +1,82 @@
 from Vector_Class import *
 
 class Robot :
-    """
-    Initialize the robot
-    x,y: robot's position (whole number)
-    speed: speed (/tick)
-    direction: direction(degree) initialized at 90
-    """
+    
     def __init__(self,xInit,yInit,lInit) :
+        """
+        Initialize the robot
+        `x` and `y` : robot's position (whole number)
+        `speed` : speed (/tick)
+        `direction` : direction(degree) initialized at 90
+        """
         self.x = int(xInit)
         self.y = int(yInit)
         self.l = lInit
         self.speed = 0
         self.direction = Vector2(90)
 
-    """
-    Adjust the speed of the robot
-    - deltaSpeed can be less than 0
-    """
     def speed_up(self,deltaSpeed) :
+        """
+        Adjust the speed of the robot
+        `deltaSpeed` : amount of speed added to the original speed.
+        Can be less than 0, to remove some speed.
+        """
         self.speed+=deltaSpeed
 
-    """
-    Rotate couterclockwise with deltaAngle degree
-    """
     def rotate_left(self,deltaAngle) :
+        """
+        Rotate couterclockwise with `deltaAngle` degree
+        """
         self.direction.rotate(deltaAngle)
         
-    """
-    Rotate clockwise with deltaAngle degree
-    """
     def rotate_right(self,deltaAngle) :
+        """
+        Rotate clockwise with `deltaAngle` degree
+        """
         self.direction.rotate(-deltaAngle)
         
-    """
-    Move the robot forward for 1 tick
-    """
     def move_forward(self) :
+        """
+        Move the robot forward for 1 tick
+        """
         self.x += int(self.direction.x * self.speed)
         self.y += int(self.direction.y * self.speed)
 
-    """
-    Move the robot backward for 1 tick
-    """
     def move_backward(self) :
+        """
+        Move the robot backward for 1 tick
+        """
         self.x -= int(self.direction.x * self.speed, ".2f")
         self.y -= int(self.direction.y * self.speed, ".2f")
 
-    """
-    Get vertex coordinates
-    """
     def getVertexCoords(self) :
+        """
+        Get vertex coordinates
+        """
         return [(self.x+0.707*self.l*math.cos(Vector2.rad(45+self.direction.angle)),self.y+0.707*self.l*math.sin(Vector2.rad(45+self.direction.angle))),
         (self.x+0.707*self.l*math.cos(Vector2.rad(135+self.direction.angle)),self.y+0.707*self.l*math.sin(Vector2.rad(135+self.direction.angle))),
         (self.x+0.707*self.l*math.cos(Vector2.rad(225+self.direction.angle)),self.y+0.707*self.l*math.sin(Vector2.rad(225+self.direction.angle))),
         (self.x+0.707*self.l*math.cos(Vector2.rad(315+self.direction.angle)),self.y+0.707*self.l*math.sin(Vector2.rad(315+self.direction.angle)))]
 
-    """
-    !!! Incomplete method
-    Activate while interact with barriers or borders
-    Turn the normal(perpendicular) speed to 0
-    """
     def collision(self):
+        """
+        !!! Incomplete method
+        Activate while interact with barriers or borders
+        Turn the normal(perpendicular) speed to 0
+        """
         print("collision")
         
-    """
-    When printed, the console shows this
-    """
     def __repr__(self) :
+        """
+        When printed, the console shows this
+        """
         return "<Robot x = " + str(self.x) + " y = " + str(self.y) + " l = " + str(self.l) + " speed = " + str(self.speed) + " direction = " + str(self.direction) + ">"
 
 class Arena :
-    """ We suppose that the position of the left-down corner is (0,0) """
+    """ 
+    We suppose that the position of the left-down corner is (0,0) 
+    """
+    
     def __init__(self, xMax, yMax) :
         self.xMax = xMax
         self.yMax = yMax

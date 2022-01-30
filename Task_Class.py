@@ -12,10 +12,12 @@ class Task :
         self.arena:Arena = arena
         self.screen = Affichage(self.robot, self.arena)
     
-    """
-    Move the robot so the square is formed 
-    """
     def draw_square(self, lenght) :
+        """
+        Move the robot so the square is formed 
+        And prints the arena with informations
+        `lenght` : lenght of one of the square's sides
+        """
         self.screen.afficher()
         for i in range(4) :
             for j in range(lenght) :
@@ -24,22 +26,22 @@ class Task :
             print(self.robot)
             self.screen.afficher()
     
-    """
-    !!! Incomplete method
-    Detect the closest wall
-    Find the middle point between the robot and the wall
-    Move faster until reaching the middle point
-    Then move slower until touching the wall
-    """
     def approach_a_wall(self) :
+        """
+        !!! Incomplete method
+        Detect the closest wall
+        Find the middle point between the robot and the wall
+        Move faster until reaching the middle point
+        Then move slower until touching the wall
+        """
         return
     
-    """
-    !!! Incomplete method
-    Detect the position of the beacon
-    Follow it (whatever the speed is) until touching it
-    """
     def follow_a_beacon(self) :
+        """
+        !!! Incomplete method
+        Detect the position of the beacon
+        Follow it (whatever the speed is) until touching it
+        """
         return
             
 """
