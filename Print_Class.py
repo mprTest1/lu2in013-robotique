@@ -31,14 +31,10 @@ class Affichage :
     def add_spaces(self, max_num, i) :
         """
         Additionnal spaces to separate y coordinates from the arena
-        `max_num` : helps count the max digit
-        `i` : additionnal spaces is added when the i have less digits than `max_num`
-        
-        !!! This method works only for 2 digits and less
+        `max_num` : [int] helps count the max number of digits
+        `i` : [int] additionnal spaces is added when the i have less digits than `max_num`
         """
-        if max_num >= 10 and i < 10 :
-            return " |"
-        return "|"
+        return " " * (len(str(max_num)) - len(str(i))) + "|"
 
 """
 Try this code in main.py :
