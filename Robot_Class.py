@@ -72,36 +72,30 @@ class Robot :
         """
         return "<Robot x = " + str(self.x) + " y = " + str(self.y) + " l = " + str(self.l) + " speed = " + str(self.speed) + " direction = " + str(self.direction) + ">"
 
-class Arena :
-    """ 
-    We suppose that the position of the left-down corner is (0,0) 
-    """
-    
-    def __init__(self, xMax, yMax) :
-        self.xMax = xMax
-        self.yMax = yMax
-
 """
 Try this code in main.py
 
 ---------------------------
 from Import_Classes import *
 
+robot = Robot(5,5,4)
+arena = Arena(50, 15)
+
 # Move three steps forward
 # with speed of 1.5
 
-robot0.speed_up(1.5)
-robot0.move_forward()
-robot0.move_forward()
-robot0.move_forward()
+robot.speed_up(1.5)
+robot.move_forward()
+robot.move_forward()
+robot.move_forward()
 
 # rotate 45 degree to the left
 # then move three steps backward
 
-robot0.rotate_left(45)
-robot0.move_backward()
-robot0.move_backward()
-robot0.move_backward()
+robot.rotate_left(45)
+robot.move_backward()
+robot.move_backward()
+robot.move_backward()
 ---------------------------
 
 """
