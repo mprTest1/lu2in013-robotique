@@ -6,9 +6,11 @@ class Robot :
         """
         Initialize the robot
         `x` and `y` : robot's position (whole number)
+        `l` : square's side lenght
         `speed` : speed (/tick)
         `direction` : direction(degree) initialized at 90
         """
+        
         self.x = int(xInit)
         self.y = int(yInit)
         self.l = lInit

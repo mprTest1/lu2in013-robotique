@@ -54,31 +54,48 @@ class Vector2 :
             `yB` (int): y of B
 
         Returns:
-            Tuple[int, int]
+            Tuple[int, int]: vector tuple
         """
         return xB - xA, yB - yA
     
     @staticmethod
     def scalar_product(vA, vB) :
+        """Returns scalar product of two Vectors
+
+        Args:
+            `vA` (Tuple[int, int]): first Vector
+            `vB` (Tuple[int, int]): second Vector
+
+        Returns:
+            float: scalar product of vA and vB
+        """
         ax, ay = vA
         bx, by = vB
         return ax * bx + ay * by
     
     @staticmethod
-    def norme(vA) :
-        ax, ay = vA
-        return math.sqrt(ax**2 + ay**2)
+    def norme(v) :
+        """Returns magnitude of a vector v
+
+        Args:
+            `v` (Tuple[int, int]): Vector
+
+        Returns:
+            float: magnitude of v
+        """
+        x, y = v
+        return math.sqrt(x**2 + y**2)
         
     @staticmethod
     def two_vectors_to_angle(vA, vB) :
         """!!! Method takes too long time
 
         Args:
-            vA (Tuple[int, int]): First Vector
-            vB (Tuple[int, int]): Second Vector
+            `vA` (Tuple[int, int]): First Vector
+            `vB` (Tuple[int, int]): Second Vector
 
         Returns:
-            float: returns angle in degree
+            float: angle in degrees
         """
         scalar = Vector2.scalar_product(vA, vB)
         normeA = Vector2.norme(vA)
@@ -88,6 +105,18 @@ class Vector2 :
     
     @staticmethod
     def two_coords_to_angle(xA, yA, xB, yB, vA) :
+        """from two coordinates and the first Vector, angle is returned
+
+        Args:
+            `xA` (int): x of A
+            `yA` (int): y of A
+            `xB` (int): x of B
+            `yB` (int): y of B
+            `vA` (Tuple[int, int]): Vector of A
+
+        Returns:
+            float: angle in degrees
+        """
         vB = Vector2.vector_dest_from_coords(xA, yA, xB, yB)
         return Vector2.two_vectors_to_angle(vA, vB)
     
@@ -117,5 +146,3 @@ class Utils :
 These classes don't need to be used
 in main.py tests
 """
-
-print(Vector2.two_vectors_to_angle((5, 7), (5, 3)))
