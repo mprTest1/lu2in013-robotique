@@ -1,5 +1,8 @@
 import math
 
+from matplotlib.pyplot import sca
+from numpy import rad2deg
+
 class Vector1 :
     def __init__(self,x1i,y1i,x2i,y2i) :
         self.x1=x1i
@@ -19,10 +22,11 @@ class Vector2 :
         - Precision of two values after the decimal
         """
         self.angle = angle
-        self.x = float(format(math.cos(Vector2.rad(angle)), ".2f")) # Pourquoi pas self.rad(angle) ?
+        self.x = float(format(math.cos(Vector2.rad(angle)), ".2f"))
         self.y = float(format(math.sin(Vector2.rad(angle)), ".2f"))
-        
-    def rad(angle) : # Pourquoi pas rad(self, angle) ?
+    
+    @staticmethod
+    def rad(angle) :
         """
         Convert an `angle` from degree to radius
         """
@@ -37,6 +41,55 @@ class Vector2 :
         self.angle += deltaAngle
         self.x = float(format(math.cos(Vector2.rad(self.angle)), ".2f"))
         self.y = float(format(math.sin(Vector2.rad(self.angle)), ".2f"))
+    
+    @staticmethod
+    def vector_dest_from_coords(xA, yA, xB, yB) :
+        """Get Tuple[x, y] from two coordinates.\n
+        Calculate the vector of AB
+
+        Args:
+            `xA` (int): x of A
+            `yA` (int): y of A
+            `xB` (int): x of B
+            `yB` (int): y of B
+
+        Returns:
+            Tuple[int, int]
+        """
+        return xB - xA, yB - yA
+    
+    @staticmethod
+    def scalar_product(vA, vB) :
+        ax, ay = vA
+        bx, by = vB
+        return ax * bx + ay * by
+    
+    @staticmethod
+    def norme(vA) :
+        ax, ay = vA
+        return math.sqrt(ax**2 + ay**2)
+        
+    @staticmethod
+    def two_vectors_to_angle(vA, vB) :
+        """!!! Method takes too long time
+
+        Args:
+            vA (Tuple[int, int]): First Vector
+            vB (Tuple[int, int]): Second Vector
+
+        Returns:
+            float: returns angle in degree
+        """
+        scalar = Vector2.scalar_product(vA, vB)
+        normeA = Vector2.norme(vA)
+        normeB = Vector2.norme(vB)
+        res = scalar / (normeA * normeB)
+        return float(format(rad2deg(math.acos(res)), ".2f"))
+    
+    @staticmethod
+    def two_coords_to_angle(xA, yA, xB, yB, vA) :
+        vB = Vector2.vector_dest_from_coords(xA, yA, xB, yB)
+        return Vector2.two_vectors_to_angle(vA, vB)
     
     def __repr__(self) :
         """
@@ -64,3 +117,5 @@ class Utils :
 These classes don't need to be used
 in main.py tests
 """
+
+print(Vector2.two_vectors_to_angle((5, 7), (5, 3)))
