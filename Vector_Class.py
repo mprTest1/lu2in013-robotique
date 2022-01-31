@@ -3,15 +3,6 @@ import math
 from matplotlib.pyplot import sca
 from numpy import rad2deg
 
-class Vector1 :
-    def __init__(self,x1i,y1i,x2i,y2i) :
-        self.x1=x1i
-        self.x2=x2i
-        self.y1=y1i
-        self.y2=y2i
-    def getV(self) :
-        return (self.x2-self.x1,self.y2-self.y1)
-
 class Vector2 :
     
     def __init__(self, angle) :
@@ -128,19 +119,33 @@ class Vector2 :
 
 class Utils :
     
-    def prodV(v1,v2) :
+    def verify_collision_two_vector(xA,yA,xB,yB,xC,yC,xD,yD) :
+        """Get Tuple[x, y] from four coordinates.
+        Verify whether vector AB and vector CD collide.
+        
+        Args:
+            `xA` (int): x of A
+            `yA` (int): y of A
+            `xB` (int): x of B
+            `yB` (int): y of B
+            `xC` (int): x of C
+            `yC` (int): y of C
+            `xD` (int): x of D
+            `yD` (int): y of D
+            
+        Returns:
+            Boolean: whether the collide happens
         """
-        !!! Documentation Missing
-        """
-        x1,y1=v1.getV()
-        x2,y2=v2.getV()
-        return x1*x2+y1*y2
-    
-    def verifyCollision() :
-        """
-        !!! Incomplete method
-        """
-        return
+        
+        vecAB=Vector2.vector_dest_from_coords(xA,yA,xB,yB)
+        vecAC=Vector2.vector_dest_from_coords(xA,yA,xC,yC)
+        vecAD=Vector2.vector_dest_from_coords(xA,yA,xD,yD)
+        vecCD=Vector2.vector_dest_from_coords(xC,yC,xD,yD)
+        vecCA=Vector2.vector_dest_from_coords(xC,yC,xA,yA)
+        vecCB=Vector2.vector_dest_from_coords(xC,yC,xB,yB)
+        case1=Vector2.scalar_product(vecAB,vecAC)*Vector2.scalar_product(vecAB,vecAD)
+        case2=Vector2.scalar_product(vecCD,vecCA)*Vector2.scalar_product(vecCD,vecCB)
+        return case1<0 and case2<0
     
 """
 These classes don't need to be used
